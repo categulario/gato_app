@@ -16,7 +16,7 @@
     <template is="dom-repeat" items="[[filas]]">
       <div class="fila">
         <template is="dom-repeat" items="[[item]]">
-          <x-celda id="{{item}}" on-click="change"></x-celda>
+          <x-celda id="{{item}}" on-click="validaGanador"></x-celda>
         </template>
       </div>
     </template>
@@ -47,7 +47,7 @@
       cambiaTurno:function() {
           this.turno=this.turno=='x'? 'o':'x';
       },
-      change:function (e) {
+      validaGanador:function (e) {
         var id=e.currentTarget.id;
         var coord=id.split('_');
         var fila=Number(coord[0]);
