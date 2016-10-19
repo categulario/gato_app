@@ -1,0 +1,59 @@
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="x-celda.html">
+
+<dom-module id="gato-app">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      div.fila{
+        display: flex;
+      }
+    </style>
+    <h2>Hello [[prop1]]</h2>
+    <h1>Es el turno de: {{turno}}</h1>
+    <template is="dom-repeat" items="[[filas]]">
+      <div class="fila">
+        <template is="dom-repeat" items="[[item]]">
+          <x-celda id="{{item}}" on-click="change"></x-celda>
+        </template>
+      </div>
+    </template>
+</template>
+
+  <script>
+    Polymer({
+
+      is: 'gato-app',
+
+      properties: {
+        prop1: {
+          type: String,
+          value: 'gato-app',
+        },
+        turno:{
+          type:String,
+          value:'x',
+        }
+      },
+      ready:function(){
+        this.filas= [
+                         ["1_1", "1_2", "1_3"],
+                         ["2_1", "2_2", "2_3"],
+                         ["3_1", "3_2", "3_3"],
+                     ];
+      },
+      cambiaTurno:function() {
+          this.turno=this.turno=='x'? 'o':'x';
+      },
+      change:function (e) {
+        var id=e.currentTarget.id;
+        var coord=id.split('_');
+        var fila=Number(coord[0]);
+        var columna=Number(coord[1]);
+        console.log(fila);
+      }
+    });
+  </script>
+</dom-module>

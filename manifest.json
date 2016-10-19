@@ -1,0 +1,6 @@
+{
+  "name": "gato",
+  "short_name": "gato",
+  "start_url": "/",
+  "display": "standalone"
+}

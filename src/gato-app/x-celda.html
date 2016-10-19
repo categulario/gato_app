@@ -1,0 +1,43 @@
+<dom-module id="x-celda">
+  <template>
+    <style>
+    div{
+      height: 200px;
+      width: 200px;
+      border: 1px solid black;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-transform: uppercase;
+      font-size: 100px;
+    }
+    div.o{
+      color: blue;
+    }
+    div.x{
+      color: red;
+    }
+    </style>
+      <div on-click="setValor" class$="{{valor}}">
+        {{valor}}
+      </div>
+  </template>
+  <script>
+  Polymer({
+    is:'x-celda',
+    properties:{
+      valor:{
+        type:String,
+        value:""
+      }
+    },
+    setValor:function() {
+      var gatoApp=document.querySelector('gato-app');
+      if(this.valor===""){
+        this.valor=gatoApp.turno;
+        gatoApp.cambiaTurno();
+      }
+    }
+  })
+  </script>
+</dom-module>
