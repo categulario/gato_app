@@ -18,7 +18,7 @@
       color: red;
     }
     </style>
-      <div on-click="setValor" class$="{{valor}}">
+      <div on-click="realizaTiro" class$="{{valor}}">
         {{valor}}
       </div>
   </template>
@@ -28,16 +28,30 @@
     properties:{
       valor:{
         type:String,
-        value:""
+        value:"",
+        observer:"_cambiaTurno"
+      },
+      tiro:{
+        type: Object,
+        notify: true
+      },
+      turno:{
+        type:String,
+        notify: true
+      },
+      celda:{
+        type:Object
       }
     },
-    setValor:function() {
-      var gatoApp=document.querySelector('gato-app');
-      if(this.valor===""){
-        this.valor=gatoApp.turno;
-        gatoApp.cambiaTurno();
+    realizaTiro:function() {
+      if (!this.valor){
+        this.valor=this.turno;
+        this.tiro = this.celda;
       }
-    }
+    },
+    _cambiaTurno:function(valorNuevo, valorAnterior) {
+          this.turno=valorNuevo=='x'? 'o':'x';
+      },
   })
   </script>
 </dom-module>

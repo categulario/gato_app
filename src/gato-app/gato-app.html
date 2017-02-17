@@ -11,12 +11,12 @@
         display: flex;
       }
     </style>
-    <h2>Hello [[prop1]]</h2>
     <h1>Es el turno de: {{turno}}</h1>
-    <template is="dom-repeat" items="[[filas]]">
+    <h3>{{ultimo.f}}, {{ultimo.c}}</h3>
+    <template is="dom-repeat" items="[[tablero]]">
       <div class="fila">
         <template is="dom-repeat" items="[[item]]">
-          <x-celda id="{{item}}" on-click="validaGanador"></x-celda>
+          <x-celda celda="{{item}}" turno="{{turno}}" tiro="{{ultimo}}"></x-celda>
         </template>
       </div>
     </template>
@@ -28,31 +28,62 @@
       is: 'gato-app',
 
       properties: {
-        prop1: {
-          type: String,
-          value: 'gato-app',
+        ultimo: {
+          type:Object,
+          observer: '_reaizaTiro'
+        },
+        lineas: {
+          type:Object,
+          value: {
+            'f1':[],
+            'f2':[],
+            'f3':[],
+            'f1':[],
+            'f2':[],
+            'f3':[],
+            'c1':[],
+            'c2':[],
+            'c3':[],
+            'd1':[],
+            'd2':[]
+          }
         },
         turno:{
           type:String,
-          value:'x',
+          value:'x'
         }
       },
       ready:function(){
-        this.filas= [
-                         ["1_1", "1_2", "1_3"],
-                         ["2_1", "2_2", "2_3"],
-                         ["3_1", "3_2", "3_3"],
-                     ];
+        this.tablero= [
+          [{f:1, c:1}, {f:1, c:2}, {f:1, c:3}],
+          [{f:2, c:1}, {f:2, c:2}, {f:2, c:3}],
+          [{f:3, c:1}, {f:3, c:2}, {f:3, c:3}],
+        ];
       },
-      cambiaTurno:function() {
-          this.turno=this.turno=='x'? 'o':'x';
+      _reaizaTiro:function(nuevo, anterior) {
+        let fila='f'+nuevo.f;
+        let columna='c'+nuevo.c;
+        let turno_anterior = this.turno=='x'? 'o':'x';
+        this.lineas[fila].push(turno_anterior)
+        this.lineas[columna].push(turno_anterior)
+        if(this.lineas[fila].length == 3){
+          this.buscaGanador(this.lineas[fila], turno_anterior)
+          for(linea in this.lineas){
+            this.buscaGanador(linea)
+          }
+        }
       },
-      validaGanador:function (e) {
-        var id=e.currentTarget.id;
-        var coord=id.split('_');
-        var fila=Number(coord[0]);
-        var columna=Number(coord[1]);
-        console.log(fila);
+      buscaGanador: function (linea, jugador) {
+        if( linea.length == 3) {
+          var ganador= true
+          linea.forEach( function(i) {
+            if(ganador && jugador != i){
+              ganador = false
+            }
+          })
+          if(ganador)
+            window.alert('el ganador es '+jugador)
+        }
       }
     });
   </script>
