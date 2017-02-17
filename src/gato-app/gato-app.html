@@ -66,12 +66,10 @@
         let turno_anterior = this.turno=='x'? 'o':'x';
         this.lineas[fila].push(turno_anterior)
         this.lineas[columna].push(turno_anterior)
-        if(this.lineas[fila].length == 3){
-          this.buscaGanador(this.lineas[fila], turno_anterior)
-          for(linea in this.lineas){
-            this.buscaGanador(linea)
+        for(linea in this.lineas){
+          console.log(linea)
+            this.buscaGanador(this.lineas[linea], turno_anterior)
           }
-        }
       },
       buscaGanador: function (linea, jugador) {
         if( linea.length == 3) {
