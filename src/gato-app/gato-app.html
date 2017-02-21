@@ -20,67 +20,88 @@
         </template>
       </div>
     </template>
-</template>
+  </template>
 
   <script>
     Polymer({
-
       is: 'gato-app',
 
       properties: {
         ultimo: {
-          type:Object,
-          observer: '_reaizaTiro'
+          type: Object,
+          observer: '_reaizaTiro',
         },
+
         lineas: {
-          type:Object,
+          type: Object,
           value: {
-            'f1':[],
-            'f2':[],
-            'f3':[],
-            'f1':[],
-            'f2':[],
-            'f3':[],
-            'c1':[],
-            'c2':[],
-            'c3':[],
-            'd1':[],
-            'd2':[]
+            'f1': [],
+            'f2': [],
+            'f3': [],
+            'c1': [],
+            'c2': [],
+            'c3': [],
+            'd1': [],
+            'd2': [],
           }
         },
-        turno:{
-          type:String,
-          value:'x'
+
+        turno: {
+          type: String,
+          value: 'x',
+        },
+
+        jugando: {
+          type: Boolean,
+          value: true,
         }
       },
-      ready:function(){
-        this.tablero= [
+
+      ready: function () {
+        this.tablero = [
           [{f:1, c:1}, {f:1, c:2}, {f:1, c:3}],
           [{f:2, c:1}, {f:2, c:2}, {f:2, c:3}],
           [{f:3, c:1}, {f:3, c:2}, {f:3, c:3}],
         ];
       },
-      _reaizaTiro:function(nuevo, anterior) {
+
+      _reaizaTiro: function (nuevo, anterior) {
+        if (!this.jugando) {
+          return;
+        }
+
         let fila='f'+nuevo.f;
         let columna='c'+nuevo.c;
-        let turno_anterior = this.turno=='x'? 'o':'x';
-        this.lineas[fila].push(turno_anterior)
-        this.lineas[columna].push(turno_anterior)
-        for(linea in this.lineas){
-          console.log(linea)
-            this.buscaGanador(this.lineas[linea], turno_anterior)
+        let turno_anterior = this.turno=='x'? 'o' : 'x';
+
+        this.lineas[fila].push(turno_anterior);
+        this.lineas[columna].push(turno_anterior);
+
+        if (nuevo.f == nuevo.c) {
+          this.lineas.d1.push(turno_anterior);
+        }
+
+        if ((nuevo.f + nuevo.c) == 4) {
+          this.lineas.d2.push(turno_anterior);
+        }
+
+        for (linea in this.lineas) {
+          if (this.buscaGanador(this.lineas[linea], turno_anterior)) {
+            break;
           }
+        }
       },
+
       buscaGanador: function (linea, jugador) {
-        if( linea.length == 3) {
-          var ganador= true
-          linea.forEach( function(i) {
-            if(ganador && jugador != i){
-              ganador = false
-            }
-          })
-          if(ganador)
-            window.alert('el ganador es '+jugador)
+        if (linea.length == 3) {
+          var ganador = linea.reduce((x, y) => x == y ? x : false);
+
+          if (ganador) {
+            this.jugando = false;
+            window.alert('el ganador es '+jugador);
+          }
+
+          return ganador;
         }
       }
     });

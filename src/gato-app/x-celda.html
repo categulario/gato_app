@@ -18,40 +18,48 @@
       color: red;
     }
     </style>
-      <div on-click="realizaTiro" class$="{{valor}}">
-        {{valor}}
-      </div>
+
+    <div on-click="realizaTiro" class$="{{valor}}">
+      {{valor}}
+    </div>
   </template>
+
   <script>
   Polymer({
     is:'x-celda',
-    properties:{
-      valor:{
-        type:String,
-        value:"",
-        observer:"_cambiaTurno"
+
+    properties: {
+      valor: {
+        type: String,
+        value: "",
+        observer: "_cambiaTurno",
       },
-      tiro:{
+
+      tiro: {
         type: Object,
-        notify: true
+        notify: true,
       },
-      turno:{
-        type:String,
-        notify: true
+
+      turno: {
+        type: String,
+        notify: true,
       },
-      celda:{
-        type:Object
+
+      celda: {
+        type: Object,
       }
     },
-    realizaTiro:function() {
+
+    realizaTiro: function () {
       if (!this.valor){
-        this.valor=this.turno;
-        this.tiro = this.celda;
+        this.valor = this.turno;
+        this.tiro  = this.celda;
       }
     },
-    _cambiaTurno:function(valorNuevo, valorAnterior) {
-          this.turno=valorNuevo=='x'? 'o':'x';
-      },
+
+    _cambiaTurno: function (valorNuevo, valorAnterior) {
+      this.turno = valorNuevo == 'x' ? 'o' : 'x';
+    },
   })
   </script>
 </dom-module>
