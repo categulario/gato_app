@@ -1,7 +1,5 @@
 # \<gato\>
 
-
-
 ## Install the Polymer-CLI
 
 First, make sure you have the [Polymer CLI](https://www.npmjs.com/package/polymer-cli) installed. Then run `polymer serve` to serve your application locally.
@@ -15,6 +13,7 @@ $ polymer serve
 ## Building Your Application
 
 ```
+$ bower install
 $ polymer build
 ```
 
